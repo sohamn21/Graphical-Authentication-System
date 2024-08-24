@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+    <form id="loginForm">
+        <label for="gmail">Enter your Gmail:</label>
+        <input type="email" id="gmail" name="gmail" required>
+        <button type="submit">Go</button>
+    </form>
+    <div id="icons">
+        <!-- Icon images will be displayed here -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#go-button').click(function() {
+            var gmail = $('#gmail-input').val();
+            $.ajax({
+                type: 'POST',
+                url: '/login',  // Adjust the URL to match your Flask route
+                data: { gmail: gmail },
+                success: function(response) {
+                    // Handle successful response here
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response here
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

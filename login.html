@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <div id="login-form">
+        <label for="gmail">Enter your Gmail address:</label>
+        <input type="email" id="gmail" name="gmail" required>
+        <button id="go-btn">Go</button>
+    </div>
+
+    <div id="icon-grid" style="display: none;">
+        <!-- Icons will be displayed here -->
+    </div>
+
+    <script>
+        document.getElementById('go-btn').addEventListener('click', function() {
+            var gmail = document.getElementById('gmail').value;
+            fetch('/next', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ gmail: gmail })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    displayIcons(data.icons);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during the next step.');
+            });
+        });
+
+        function displayIcons(icons) {
+            var iconGrid = document.getElementById('icon-grid');
+            iconGrid.innerHTML = ''; // Clear previous icons
+            icons.forEach(icon => {
+                var img = document.createElement('img');
+                img.src = icon;
+                iconGrid.appendChild(img);
+            });
+            iconGrid.style.display = 'block'; // Show the icon grid
+        }
+    </script>
+</body>
+</html>
